@@ -68,17 +68,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
     switch (keycode) {
         case KC_J:
             if (get_oneshot_mods() & MOD_MASK_CTRL) {
-                clear_oneshot_mods();
-                tap_code16(G(KC_SPC));  // GUI + SPACE を送信
+                if (record->event.pressed) {
+                    clear_oneshot_mods();
+                    tap_code16_delay(G(KC_SPC), 80);  // GUI + SPACE を送信
+                } 
                 return false;
-            } else {
-                return true;
-            }
-        }
-
+            } 
+            return true;
+    }
     return true;
 }
